@@ -1,5 +1,6 @@
 import re
 import jwt
+import database
 import datetime
 #importando o pacote re que sera util na validação do email.
 
@@ -24,6 +25,7 @@ class User:
             #verifica se a senha atende aos criterios para ser cadastrada, caso seja cadastrara no banco de dados.
             if (self.senha.islower() and len(self.senha) < 7 and self.senha.isalpha() and self.senha.isalnum()):
                 #cursor.execute("INSERT INTO user VALUES (self.nome, self.email, self.senha)")
+                print("oi")
             else:
                 print("senha incorreta")          
         else:  
@@ -31,29 +33,41 @@ class User:
 
     
 
-        # define a chave secreta para a geração de tokens
-        SECRET_KEY = 'minha_chave_secreta'
+    # define a chave secreta para a geração de tokens
+    SECRET_KEY = 'minha_chave_secreta'
 
-        # define o tempo de expiração do token (em minutos)
-        EXPIRATION_MINUTES = 30
+    # define o tempo de expiração do token (em minutos)
+    EXPIRATION_MINUTES = 30
 
-        # define a função para gerar um token de autenticação para um usuário
-        def generate_token(user_id):
-            payload = {
+    # define a função para gerar um token de autenticação para um usuário
+    def gerar_token(user_id):
+        payload = {
             'user_id': user_id,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=EXPIRATION_MINUTES)
-            }
-            token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-            return token.decode('utf-8')
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        return token.decode('utf-8')
 
 
-    #def loginUsuario(self, email, senha):
-        #user = cursor.execute("SELECT * FROM user WHERE self.email = %s AND self.senha = %s" AND user_id, (email, senha))
-    #    if(user > 1):
-     #       generate_token()
+    def loginUsuario(email, senha):
+        # Criar uma conexão com o banco de dados
+        conn = database.connect()
 
+        # Verifica se o email e senha são válidos
+        cursor = conn.execute("SELECT ID, email, senha from user WHERE email=? AND senha=?", (email, senha))
+        row = cursor.fetchone()
 
+        if row is not None:
+            # Gera um token JWT para o usuário autenticado
+            user_id, _, _ = row
+            token = gerar_token(user_id)
+            print("Login bem-sucedido!")
+            print("Token:", token)
+        else:
+            print("Email ou senha incorretos.")
 
+        # Fechar a conexão com o banco de dados
+        conn.close()
               
             
 
