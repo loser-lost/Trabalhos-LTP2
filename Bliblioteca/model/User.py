@@ -49,12 +49,12 @@ class User:
         return token.decode('utf-8')
 
 
-    def loginUsuario(email, senha):
+    def loginUsuario(username, password):
         # Criar uma conexão com o banco de dados
         conn = database.connect()
 
         # Verifica se o email e senha são válidos
-        cursor = conn.execute("SELECT ID, email, senha from user WHERE email=? AND senha=?", (email, senha))
+        cursor = conn.execute("SELECT ID, email, senha from user WHERE email=? AND senha=?", (username, password))
         row = cursor.fetchone()
 
         if row is not None:
@@ -63,13 +63,15 @@ class User:
             token = gerar_token(user_id)
             print("Login bem-sucedido!")
             print("Token:", token)
+            # Retorna um objeto de resposta com o token JWT
+            return {'token': token}
         else:
-            print("Email ou senha incorretos.")
+            return {'error': 'Email ou senha incorretos.'}
 
         # Fechar a conexão com o banco de dados
         conn.close()
               
-            
+        
 
 
       
