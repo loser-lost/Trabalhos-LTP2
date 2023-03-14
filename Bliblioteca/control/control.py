@@ -1,6 +1,6 @@
 from model.User import User
 from view import login
-from flask import Flask
+from flask import Flask, render_template, render_template_string, request, template_rendered
 
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ def pag_login():
 
 @app.rout('/pagcadastro')
 def pag_cadastro():
-    return render-template('cadastro.html')
+    return render_template_string-template_rendered('cadastro.html')
 
 
 
@@ -24,7 +24,7 @@ def pag_cadastro():
 
 
 
-cadastrar_usuario
+#cadastrar_usuario
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,7 +32,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         # Passa as informações de login para o controlador
-        resultado = controlador_de_login(username, password)
+        resultado = loginUsuario(username, password)
         return resultado
     else:
         return render_template('login.html')

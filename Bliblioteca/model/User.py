@@ -1,4 +1,6 @@
 import re
+from typing_extensions import Self
+from flask import Flask
 import jwt
 import database
 import datetime
@@ -32,15 +34,13 @@ class User:
             print("email invalido")
 
     
-
-    # define a chave secreta para a geração de tokens
-    SECRET_KEY = 'minha_chave_secreta'
-
-    # define o tempo de expiração do token (em minutos)
-    EXPIRATION_MINUTES = 30
-
     # define a função para gerar um token de autenticação para um usuário
     def gerar_token(user_id):
+        # define a chave secreta para a geração de tokens
+        SECRET_KEY = 'minha_chave_secreta'
+
+        # define o tempo de expiração do token (em minutos)
+        EXPIRATION_MINUTES = 30
         payload = {
             'user_id': user_id,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=EXPIRATION_MINUTES)
@@ -60,7 +60,7 @@ class User:
         if row is not None:
             # Gera um token JWT para o usuário autenticado
             user_id, _, _ = row
-            token = gerar_token(user_id)
+            token = Self.gerar_token(user_id)
             print("Login bem-sucedido!")
             print("Token:", token)
             # Retorna um objeto de resposta com o token JWT
