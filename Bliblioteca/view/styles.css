@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    background-image: linear-gradient(to bottom, #6959CD, #483D8B 50%, #191970 70%, #000080 90%, #00008B);
+    background-image: linear-gradient(to bottom, #D3D3D3, #A9A9A9 40%, #696969 60%, #363636 80%, #000000);
     margin: 10;
     padding: 10;
     font-family: Arial, sans-serif;
@@ -70,7 +70,7 @@ body {
         justify-content: flex-end;
         align-items: center;
         height: 50px;
-        background-color: #483D8B;
+        background-color: #4F4F4F;
         padding: 0 20px;
 }
 
@@ -83,7 +83,7 @@ body {
 }
 
 .search-container {
-    margin-right: 1075px;
+    margin-right: auto;
 }
 
 .menu input[type="text"] {
